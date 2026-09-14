@@ -82,8 +82,3 @@ char	*merge_previous_and_current(char *previous, const char *current) // сое�
 	free(previous);
 	return (result);
 }
-
-char	*get_current_buffer(int fd, char *buffer)
-{
-
-}
