@@ -34,6 +34,8 @@ static char	*get_line(char **buffer)
 	size_t	til_null_len;                                                 // Длина всей строки
 	size_t	til_new;                                                     // Позиция \n
 
+	if (!buffer || !*buffer)
+		return (NULL);
 	til_new = strlen_at(*buffer, '\n');                                   // Ищем \n 
 	if ((*buffer)[til_new] == '\n')                                      // Проверяем, действительно ли там \n
 		til_new++;
@@ -41,10 +43,29 @@ static char	*get_line(char **buffer)
 	if (!line)
 		return (NULL);
 	til_null_len = strlen_at(*buffer, '\0');                             // Находим конец всей строки
-	keep = cpy_buffer(*buffer + til_new, til_null_len - til_new + 1);   // Копируем остаток
+	keep = cpy_buffer(*buffer, til_new, til_null_len - til_new );   // Копируем остаток
 	if (!keep)
 		return (free (line), NULL);
 	free(*buffer);
 	*buffer = keep;
+	return (line);
+}
+
+char	*get_next_line(int fd)
+{
+	static char	*buffer; // переменная сохраняет своё значение между вызовами функции. Она живёт всё время работы программы, а не удаляется при выходе из функции. Её область видимости при этом ограничена только этой функцией.
+	char		*line;
+
+	if (fd < 0 || BUFFER_SIZE <= 0)
+		return (NULL);
+	buffer = get_current_buffer(fd, buffer);
+	if (!buffer)
+		return (NULL);
+	line = get_line(&buffer);
+	if (!buffer[0])
+	{
+		free(buffer);
+		buffer = NULL;
+	}
 	return (line);
 }
