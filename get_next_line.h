@@ -9,6 +9,7 @@
 # endif
 
 char	*get_next_line(int fd);
+
 size_t strlen_at(const char *s, int end);
 char *find_chr(const char *s, int c);
 void	*ft_memcpy(void *dest, const void *src, size_t n);
