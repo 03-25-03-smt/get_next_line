@@ -43,7 +43,7 @@ static char	*get_line(char **buffer)
 	if (!line)
 		return (NULL);
 	til_null_len = strlen_at(*buffer, '\0');                             // Находим конец всей строки
-	keep = cpy_buffer(*buffer, til_new, til_null_len - til_new );   // Копируем остаток
+	keep = cpy_buffer(*buffer, til_new, til_null_len - til_new );   	// Копируем остаток /  til_null_len - til_new  нужно узнать сколько символов осталось после \n, чтобы скопировать именно остаток в keep.
 	if (!keep)
 		return (free (line), NULL);
 	free(*buffer);
