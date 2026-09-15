@@ -38,7 +38,7 @@ static char	*get_line(char **buffer)
 		return (NULL);
 	til_new = strlen_at(*buffer, '\n');                                   // Ищем \n 
 	if ((*buffer)[til_new] == '\n')                                      // Проверяем, действительно ли там \n
-		til_new++;
+		til_new++;														// ф-я возвращает позицию \n но не включает в себя этот же \n
 	line = cpy_buffer(*buffer, 0, til_new);                             // Создаём line
 	if (!line)
 		return (NULL);
