@@ -74,7 +74,7 @@ char	*merge_previous_and_current(char *previous, const char *current) // сое�
 	curr_len = strlen_at(current, '\0');
 	result = (char *)malloc(prev_len + curr_len + 1);
 	if (!result)
-		return (NULL);
+		return (free(previous), NULL);
 	if (previous)
 		ft_memcpy(result, previous, prev_len);
 	ft_memcpy(result + prev_len, current, curr_len);
