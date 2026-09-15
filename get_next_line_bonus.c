@@ -56,7 +56,7 @@ char	*get_next_line(int fd)
 	static char	*buffer[MAX_FILES]; // переменная сохраняет своё значение между вызовами функции. Она живёт всё время работы программы, а не удаляется при выходе из функции. Её область видимости при этом ограничена только этой функцией.
 	char		*line;
 
-	if (fd < 0 || BUFFER_SIZE <= 0 || ft >= MAX_FILES)
+	if (fd < 0 || BUFFER_SIZE <= 0 || fd >= MAX_FILES)
 		return (NULL);
 	buffer[fd] = get_current_buffer(fd, buffer[fd]);
 	if (!buffer[fd])
