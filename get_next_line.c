@@ -60,15 +60,13 @@ char	*get_next_line(int fd)
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
 	if (read(fd, &test, 0) == -1)
-	{
-		free(buffer);
-		buffer = NULL;
-		return (NULL);
-	}
+		return (free(buffer), buffer = NULL, NULL);
 	buffer = get_current_buffer(fd, buffer);
 	if (!buffer)
 		return (NULL);
 	line = get_line(&buffer);
+	if (!line)
+		return (free(buffer), buffer = NULL, NULL);
 	if (!buffer[0])
 	{
 		free(buffer);
