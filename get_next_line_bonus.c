@@ -27,47 +27,46 @@ static char	*get_line(char **buffer)
 static char	*get_current_buffer(int fd, char *buffer)
 {
 	char	*current;
-	ssize_t  bytes_read;
+	ssize_t	bytes_read;
 
-  bytes_read = 1;																// 1 потому что нужно войти в цыкл 
-  current = (char *)malloc(BUFFER_SIZE + 1);
-  if (!current)
-    return (NULL);
-  while (bytes_read > 0 && !find_chr(buffer, '\n'))                            // Нам нужно читать, пока в buffer нет \n
-  {
-    bytes_read = read(fd, current, BUFFER_SIZE);
-    if (bytes_read == 0)
-      break;
-    if (bytes_read == -1)
-      return (free(current),NULL);
-    current[bytes_read] = '\0';
-    buffer = merge_previous_and_current(buffer, current);
-    if (!buffer)
-      return (free(current),NULL);
-  }
-  free(current);
-  if (strlen_at(buffer, '\0') > 0)
+	bytes_read = 1;
+	current = (char *)malloc(BUFFER_SIZE + 1);
+	if (!current)
+		return (NULL);
+	while (bytes_read > 0 && !find_chr(buffer, '\n'))
+	{
+		bytes_read = read(fd, current, BUFFER_SIZE);
+		if (bytes_read == 0)
+			break;
+		if (bytes_read == -1)
+			return (free(current), free(buffer), NULL);
+		current[bytes_read] = '\0';
+		buffer = merge_previous_and_current(buffer, current);
+		if (!buffer)
+			return (free(current), NULL);
+	}
+	free(current);
+	if (strlen_at(buffer, '\0') > 0)
 		return (buffer);
-  return (NULL);
+	return (NULL);
 }
 
 char	*get_next_line(int fd)
 {
-	static char	*buffer[MAX_FILES]; // переменная сохраняет своё значение между вызовами функции. Она живёт всё время работы программы, а не удаляется при выходе из функции. Её область видимости при этом ограничена только этой функцией.
+	static char	*buffer[MAX_FILES];
 	char		*line;
+	char		test;
 
 	if (fd < 0 || BUFFER_SIZE <= 0 || fd >= MAX_FILES)
 		return (NULL);
+	if (read(fd, &test, 0) == -1)
+		return (free(buffer[fd]), buffer[fd] = NULL, NULL);
 	buffer[fd] = get_current_buffer(fd, buffer[fd]);
 	if (!buffer[fd])
 		return (NULL);
 	line = get_line(&buffer[fd]);
 	if (!line)
-	{
-		free(buffer[fd]);
-		buffer[fd] = NULL;
-		return (NULL);
-	}
+		return (free(buffer[fd]), buffer[fd] = NULL, NULL);
 	if (!buffer[fd][0])
 	{
 		free(buffer[fd]);
