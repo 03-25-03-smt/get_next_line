@@ -53,8 +53,9 @@ static char	*get_line(char **buffer)
 
 char	*get_next_line(int fd)
 {
-	static char	*buffer; // переменная сохраняет своё значение между вызовами функции. Она живёт всё время работы программы, а не удаляется при выходе из функции. Её область видимости при этом ограничена только этой функцией.
+	static char	*buffer;
 	char		*line;
+	char		test;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
