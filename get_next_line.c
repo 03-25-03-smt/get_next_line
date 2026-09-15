@@ -5,7 +5,7 @@ static char	*get_current_buffer(int fd, char *buffer)
 	char	*current;
 	ssize_t  bytes_read;
 
-  bytes_read = 1;
+  bytes_read = 1;																// 1 потому что нужно войти в цыкл 
   current = (char *)malloc(BUFFER_SIZE + 1);
   if (!current)
     return (NULL);
