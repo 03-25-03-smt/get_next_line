@@ -63,7 +63,11 @@ char	*get_next_line(int fd)
 		return (NULL);
 	line = get_line(&buffer[fd]);
 	if (!line)
-		return (free(buffer[fd]), buffer[fd] = NULL, NULL);
+	{
+		free(buffer[fd]);
+		buffer[fd] = NULL;
+		return (NULL);
+	}
 	if (!buffer[fd][0])
 	{
 		free(buffer[fd]);
