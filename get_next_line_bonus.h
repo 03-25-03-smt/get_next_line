@@ -10,7 +10,7 @@
 #  define BUFFER_SIZE 42
 # endif
 
-# define MAX_FILES OPEN_MAX                                                  // Создай моё имя MAX_FILES, которое будет равно системному OPEN_MAX
+# define MAX_FILES 1024                                                  // Создай моё имя MAX_FILES, которое будет равно системному OPEN_MAX
 
 char	*get_next_line(int fd);
 
