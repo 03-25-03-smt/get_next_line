@@ -24,7 +24,7 @@ static char	*get_current_buffer(int fd, char *buffer)
   free(current);
   if (strlen_at(buffer, '\0') > 0)
 		return (buffer);
-	return (NULL);
+  return (NULL);
 }
 
 static char	*get_line(char **buffer)
