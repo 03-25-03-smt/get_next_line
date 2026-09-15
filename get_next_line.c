@@ -15,7 +15,7 @@ static char	*get_current_buffer(int fd, char *buffer)
     if (bytes_read == 0)
       break;
     if (bytes_read == -1)
-      return (free(current),NULL);
+      return (free(current), free(buffer), NULL);
     current[bytes_read] = '\0';
     buffer = merge_previous_and_current(buffer, current);
     if (!buffer)
@@ -58,6 +58,12 @@ char	*get_next_line(int fd)
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
+	if (read(fd, &test, 0) == -1)
+	{
+		free(buffer);
+		buffer = NULL;
+		return (NULL);
+	}
 	buffer = get_current_buffer(fd, buffer);
 	if (!buffer)
 		return (NULL);
